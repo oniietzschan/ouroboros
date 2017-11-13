@@ -37,13 +37,9 @@ function Ouroboros:add(...)
   if count == 0 then
     return self
   end
-  if count == 1 then
+  if count == 1 and type(p[1]) == "table" then
     p = p[1]
-    if type(p) == "table" then
-      count = #p
-    else
-      p = {p}
-    end
+    count = #p
   end
   local nodes = self.nodes
   for i=1, count do
