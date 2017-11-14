@@ -21,7 +21,7 @@ local graph = Ouroboros.new()
 
 local sorted = graph:sort()
 print((require "serpent").line(sorted))
--- {'a', 'b', 'c', 'd'}
+-- {'a', 'b', 'c', 'd', 'e'}
 ```
 
 Cycle Resolution Example
