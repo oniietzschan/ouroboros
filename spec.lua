@@ -116,5 +116,20 @@ describe('Ouroboros:', function()
         assert.same(nil, err)
       end)
     end)
+
+    describe('When an invalid resolution function is provided', function ()
+      it('Should throw error', function()
+        graph
+          :add('a', 'b')
+          :add('b', 'a')
+
+        local function badResolveCycleFn(cycle)
+          return nil
+        end
+
+        local expectedError = 'cycleResolutionFn must return an item in the graph.'
+        assert.has_error(function() graph:sort(badResolveCycleFn) end, expectedError)
+      end)
+    end)
   end)
 end)

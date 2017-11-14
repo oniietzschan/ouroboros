@@ -30,24 +30,24 @@ local function resolveCycleFn(cycle)
 end
 
 local graph = Ouroboros.new()
-graph:add(renge, konata)
-graph:add(konata, umaru)
-graph:add(umaru, renge)
+  :add(renge, konata)
+  :add(konata, umaru)
+  :add(umaru, renge)
 local sorted, err = graph:sort(resolveCycleFn)
 
 print((require "serpent").block(sorted))
 -- {
 --   {
---     moePoints = 10000,
---     name = "Renge"
+--     name = "Renge",
+--     moePoints = 10000
 --   },
 --   {
---     moePoints = 5000,
---     name = "Konata"
+--     name = "Konata",
+--     moePoints = 5000
 --   },
 --   {
---     moePoints = 0,
---     name = "Umaru"
+--     name = "Umaru",
+--     moePoints = 0
 --   }
 -- }
 
