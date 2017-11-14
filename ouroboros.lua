@@ -1,7 +1,7 @@
 local Ouroboros = {
   _VERSION     = 'ouroboros v0.0.0',
   _URL         = 'https://github.com/oniietzschan/ouroboros',
-  _DESCRIPTION = 'Topological sorting in Lua. Some cycle resolution functionality.',
+  _DESCRIPTION = 'Topological sorting in Lua. Simple cycle resolution functionality.',
   _LICENSE     = [[
     Massachusecchu... あれっ！ Massachu... chu... chu... License!
 
@@ -97,17 +97,27 @@ end
 
 function Ouroboros._visit(k, nodes, marked, sorted)
   if marked[k] == 0 then
-    return {}
+    return {k}, false
   elseif marked[k] == 1 then
     return
   end
   marked[k] = 0
   local f = nodes[k]
   for i = 1, #f do
-    local cycle = Ouroboros._visit(f[i], nodes, marked, sorted)
+    local cycle, isCycleComplete = Ouroboros._visit(f[i], nodes, marked, sorted)
     if cycle then
-      table.insert(cycle, k)
-      return cycle
+      if isCycleComplete == false then
+        for _, cycleNode in ipairs(cycle) do
+          if cycleNode == k then
+            isCycleComplete = true
+            break
+          end
+        end
+        if isCycleComplete == false then
+          table.insert(cycle, k)
+        end
+      end
+      return cycle, isCycleComplete
     end
   end
   marked[k] = 1
@@ -151,6 +161,34 @@ function Ouroboros:_resolveCycle(cycle, cycleResolutionFn)
       end
     end
   end
+
+  error('Tried to remove dependency for ' .. tostring(first) .. ', but it was not part of the cycle.')
 end
+
+-- function Ouroboros:_debug(cycle, first, inPriority)
+--   local str
+
+--   str = 'Cycle:'
+--   for i, item in ipairs(cycle) do
+--     str = str .. ' ' .. tostring(item)
+--   end
+--   print(str)
+
+--   print('First:', first)
+
+--   str = 'inPriority:'
+--   for i, item in ipairs(inPriority) do
+--     str = str .. ' ' .. tostring(item)
+--   end
+--   print(str)
+
+--   print('Dependencies:')
+--   for i, item in ipairs(cycle) do
+--     print('  - ' .. tostring(item))
+--     for j, dep in ipairs(self.nodes[item]) do
+--       print('    - ' .. tostring(dep))
+--     end
+--   end
+-- end
 
 return Ouroboros
