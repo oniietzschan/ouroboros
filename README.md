@@ -5,7 +5,7 @@ ouroboros
 [![Codecov](https://codecov.io/gh/oniietzschan/ouroboros/branch/master/graph/badge.svg)](https://codecov.io/gh/oniietzschan/ouroboros)
 [![Alex](https://img.shields.io/badge/alex-never_racist-brightgreen.svg)](http://alexjs.com/)
 
-Topological sorting in Lua. Some cycle resolution functionality.
+Topological sorting in Lua. Simple cycle resolution functionality.
 
 Basic Example
 -------------
@@ -34,7 +34,7 @@ local renge  = {name = 'Renge',  moePoints =  5000}
 local konata = {name = 'Konata', moePoints = 10000}
 local umaru  = {name = 'Umaru',  moePoints =     0}
 
--- This graph has a cycle: renge -> konata -> umaru -> renge
+-- This graph has a cycle: renge -> konata -> umaru -> renge -> ...
 local graph = Ouroboros.new()
   :add(renge, konata)
   :add(konata, umaru)
