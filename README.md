@@ -7,16 +7,41 @@ ouroboros
 
 Topological sorting in Lua. Some cycle resolution functionality.
 
-Example
--------
+Basic Example
+-------------
 
 ```lua
 local Ouroboros = require "ouroboros"
 
-local renge  = {name = 'Renge',  moePoints = 10000}
-local konata = {name = 'Konata', moePoints =  5000}
+local graph = Ouroboros.new()
+  :add('b', 'e')
+  :add('b', 'c', 'd')
+  :add('d', 'e')
+  :add('a', 'b')
+
+local sorted = graph:sort()
+print((require "serpent").line(sorted))
+-- {'a', 'b', 'c', 'd'}
+```
+
+Cycle Resolution Example
+------------------------
+
+```lua
+local Ouroboros = require "ouroboros"
+
+local renge  = {name = 'Renge',  moePoints =  5000}
+local konata = {name = 'Konata', moePoints = 10000}
 local umaru  = {name = 'Umaru',  moePoints =     0}
 
+-- This graph has a cycle: renge -> konata -> umaru -> renge
+local graph = Ouroboros.new()
+  :add(renge, konata)
+  :add(konata, umaru)
+  :add(umaru, renge)
+
+-- graph:sort() can take a function which it will consult in order to decide
+-- which dependency should be severed in order to make the graph acyclic again.
 local function resolveCycleFn(cycle)
   local worstGirl = nil
   local leastMoe = math.huge
@@ -29,10 +54,6 @@ local function resolveCycleFn(cycle)
   return worstGirl
 end
 
-local graph = Ouroboros.new()
-  :add(renge, konata)
-  :add(konata, umaru)
-  :add(umaru, renge)
 local sorted, err = graph:sort(resolveCycleFn)
 
 print((require "serpent").block(sorted))
