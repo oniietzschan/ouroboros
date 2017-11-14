@@ -46,7 +46,7 @@ function Ouroboros:add(...)
     local f = p[i]
     if nodes[f] == nil then nodes[f] = {} end
   end
-  for i=2, count, 1 do
+  for i = 2, count do
     local f = p[i]
     local t = p[i-1]
     local o = nodes[f]
@@ -95,13 +95,16 @@ function Ouroboros:_sort()
   return sorted, nil
 end
 
+local DEAD = 1
+local PROCESSING = 0
+
 function Ouroboros._visit(k, nodes, marked, sorted)
-  if marked[k] == 0 then
+  if marked[k] == PROCESSING then
     return {k}, false
-  elseif marked[k] == 1 then
+  elseif marked[k] == DEAD then
     return
   end
-  marked[k] = 0
+  marked[k] = PROCESSING
   local f = nodes[k]
   for i = 1, #f do
     local cycle, isCycleComplete = Ouroboros._visit(f[i], nodes, marked, sorted)
@@ -120,7 +123,7 @@ function Ouroboros._visit(k, nodes, marked, sorted)
       return cycle, isCycleComplete
     end
   end
-  marked[k] = 1
+  marked[k] = DEAD
   table.insert(sorted, k)
 end
 
