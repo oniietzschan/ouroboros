@@ -30,15 +30,15 @@ Cycle Resolution Example
 ```lua
 local Ouroboros = require "ouroboros"
 
-local renge  = {name = 'Renge',  moePoints =  5000}
-local konata = {name = 'Konata', moePoints = 10000}
+local konata = {name = 'Konata', moePoints =  5000}
+local renge  = {name = 'Renge',  moePoints = 10000}
 local umaru  = {name = 'Umaru',  moePoints =     0}
 
--- This graph has a cycle: renge -> konata -> umaru -> renge -> ...
+-- This graph has a cycle: konata -> renge -> umaru -> konata -> ...
 local graph = Ouroboros.new()
-  :add(renge, konata)
-  :add(konata, umaru)
-  :add(umaru, renge)
+  :add(konata, renge)
+  :add(renge, umaru)
+  :add(umaru, konata)
 
 -- graph:sort() can take a function which it will consult in order to decide
 -- which dependency should be severed in order to make the graph acyclic again.
@@ -59,12 +59,12 @@ local sorted, err = graph:sort(resolveCycleFn)
 print((require "serpent").block(sorted))
 -- {
 --   {
---     name = "Renge",
---     moePoints = 10000
---   },
---   {
 --     name = "Konata",
 --     moePoints = 5000
+--   },
+--   {
+--     name = "Renge",
+--     moePoints = 10000
 --   },
 --   {
 --     name = "Umaru",
