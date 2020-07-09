@@ -32,23 +32,17 @@ function Ouroboros.new()
 end
 
 function Ouroboros:add(...)
-  local p = {...}
-  local count = #p
-  if count == 0 then
-    return self
-  end
-  if count == 1 and type(p[1]) == "table" then
-    p = p[1]
-    count = #p
-  end
+  local count = select('#', ...)
   local nodes = self.nodes
-  for i=1, count do
-    local f = p[i]
-    if nodes[f] == nil then nodes[f] = {} end
+  for i = 1, count do
+    local f = select(i, ...)
+    if nodes[f] == nil then
+      nodes[f] = {}
+    end
   end
   for i = 2, count do
-    local f = p[i]
-    local t = p[i-1]
+    local f = select(i, ...)
+    local t = select(i - 1, ...)
     local o = nodes[f]
     table.insert(o, t)
   end
