@@ -1,35 +1,20 @@
-local Ouroboros = {
-  _VERSION     = 'ouroboros v0.0.0',
-  _URL         = 'https://github.com/oniietzschan/ouroboros',
-  _DESCRIPTION = 'Topological sorting in Lua. Simple cycle resolution functionality.',
-  _LICENSE     = [[
-    Massachusecchu... あれっ！ Massachu... chu... chu... License!
+--[[
 
-    Copyright (c) 1789 Retia Adolf
+ouroboros v0.0.0
+================
 
-    Permission is hereby granted, free of charge, to any person obtaining a copy
-    of this software and associated documentation files (the "Software"), to deal
-    in the Software without restriction, including without limitation the rights
-    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    copies of the Software, and to permit persons to whom the Software is
-    furnished to do so, subject to the following conditions:
+Topological sorting in Lua. Simple cycle resolution functionality.
 
-    The above copyright notice and this permission notice shall be included in all
-    copies or substantial portions of the Software.
+By shru. (see: https://github.com/oniietzschan/ouroboros)
 
-    THE SOFTWARE IS PROVIDED 【AS IZ】, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    SOFTWARE. PLEASE HAVE A FUN AND BE GENTLE WITH THIS SOFTWARE.
-  ]]
-}
+LICENSE
+-------
 
-function Ouroboros.new()
-  return setmetatable({ nodes = {} }, {__index = Ouroboros})
-end
+Whoever knows how to take, to defend, the "Software" — to him belongs property.
+
+--]]
+
+local Ouroboros = {}
 
 function Ouroboros:add(...)
   local count = select('#', ...)
@@ -160,6 +145,16 @@ function Ouroboros:_resolveCycle(cycle, cycleResolutionFn)
   end
 
   error('Tried to remove dependency for ' .. tostring(first) .. ', but it was not part of the cycle.')
+end
+
+do
+  local metatable = {
+    __index = Ouroboros,
+  }
+
+  function Ouroboros.new()
+    return setmetatable({ nodes = {} }, metatable)
+  end
 end
 
 -- function Ouroboros:_debug(cycle, first, inPriority)
