@@ -145,10 +145,10 @@ function Ouroboros:_resolveCycle(cycle, cycleResolutionFn)
     end
   end
 
-  for i, cycleNode in ipairs(inPriority) do
-    for j, dependency in ipairs(nodes[cycleNode]) do
+  for _, cycleNode in ipairs(inPriority) do
+    for i, dependency in ipairs(nodes[cycleNode]) do
       if dependency == first then
-        table.remove(nodes[cycleNode], j)
+        table.remove(nodes[cycleNode], i)
         return
       end
     end

@@ -59,7 +59,7 @@ describe('Ouroboros:', function()
       local function resolveCycleFn(cycle)
         local worstGirl = nil
         local leastMoe = math.huge
-        for i, girl in ipairs(cycle) do
+        for _, girl in ipairs(cycle) do
           if girl.moePoints < leastMoe then
             leastMoe = girl.moePoints
             worstGirl = girl
@@ -122,7 +122,7 @@ describe('Ouroboros:', function()
           :add('a', 'b')
           :add('b', 'a')
 
-        local function badResolveCycleFn(cycle)
+        local function badResolveCycleFn()
           return nil
         end
 
@@ -155,7 +155,7 @@ describe('Ouroboros:', function()
         :add('A', 'Extra I')
 
       local cycle = {'A', 'B', 'C', 'Extra I'} -- Note: This is not actually a cycle...
-      local function badResolveCycleFn(cycle)
+      local function badResolveCycleFn()
         return 'Extra I'
       end
 

@@ -19,6 +19,7 @@ install:
 
 script:
   - busted --verbose --coverage spec.lua
+  - luacheck .
 
 after_success:
   - luacov
