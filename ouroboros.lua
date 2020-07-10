@@ -58,20 +58,30 @@ function Ouroboros:sort(cycleResolutionFn)
   return sorted, err
 end
 
-function Ouroboros:_sort()
-  local nodes = self.nodes
-  local sorted = {}
+do
   local marked = {}
-  for k in pairs(nodes) do
-    if marked[k] == nil then
-      local cycle = Ouroboros._visit(k, nodes, marked, sorted)
-      if cycle then
-        return nil, cycle
-      end
+
+  local function clearTable(t)
+    for k in pairs(t) do
+      t[k] = nil
     end
   end
 
-  return sorted, nil
+  function Ouroboros:_sort()
+    local sorted = {}
+    local nodes = self.nodes
+    clearTable(marked)
+    for k in pairs(nodes) do
+      if marked[k] == nil then
+        local cycle = Ouroboros._visit(k, nodes, marked, sorted)
+        if cycle then
+          return nil, cycle
+        end
+      end
+    end
+
+    return sorted, nil
+  end
 end
 
 local DEAD = 1
