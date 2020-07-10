@@ -4,7 +4,7 @@ ouroboros
 [![Build Status](https://travis-ci.org/oniietzschan/ouroboros.svg?branch=master)](https://travis-ci.org/oniietzschan/ouroboros)
 [![Codecov](https://codecov.io/gh/oniietzschan/ouroboros/branch/master/graph/badge.svg)](https://codecov.io/gh/oniietzschan/ouroboros)
 ![Lua Versions](https://img.shields.io/badge/Lua-JIT%2C%205.1%2C%205.2%2C%205.3-blue.svg)
-![Might Makes Right](https://img.shields.io/badge/license-Might%20Makes%20Right-red)
+[![Might Makes Right](https://img.shields.io/badge/license-Might%20Makes%20Right-red)](https://github.com/oniietzschan/ouroboros/blob/master/ouroboros.lua#L10)
 
 Topological sorting in Lua. Simple cycle resolution functionality.
 
